@@ -29,21 +29,40 @@ const Index = () => {
           title: 'GT3 RS Night Chase',
           image: 'https://cdn.poehali.dev/projects/ea7e250d-526c-45e3-a834-619c89dca327/files/9d00e9d8-a60a-405a-86ed-116ceb133478.jpg',
           author: 'SpeedEdit',
-          likes: 1247
+          likes: 1247,
+          type: 'image'
         },
         {
           id: 2,
           title: 'Carrera 4S Sunset',
           image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80',
           author: 'RacingVisuals',
-          likes: 932
+          likes: 932,
+          type: 'image'
+        },
+        {
+          id: 10,
+          title: 'Porsche 911 GT3 RS',
+          video: 'https://www.tiktok.com/embed/7321456789012345678',
+          author: '@porsche_edits',
+          likes: 2547,
+          type: 'video'
         },
         {
           id: 3,
           title: 'Turbo S Urban',
           image: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80',
           author: 'CityDrive',
-          likes: 1089
+          likes: 1089,
+          type: 'image'
+        },
+        {
+          id: 11,
+          title: '911 Carrera S Beast',
+          video: 'https://www.tiktok.com/embed/7298765432109876543',
+          author: '@speed_nation',
+          likes: 3821,
+          type: 'video'
         }
       ]
     },
@@ -57,21 +76,40 @@ const Index = () => {
           title: 'Hellcat Drift King',
           image: 'https://cdn.poehali.dev/projects/ea7e250d-526c-45e3-a834-619c89dca327/files/9e733263-42d8-4073-94f6-5d31049219ae.jpg',
           author: 'MuscleEdits',
-          likes: 2134
+          likes: 2134,
+          type: 'image'
+        },
+        {
+          id: 12,
+          title: 'Hellcat Redeye Power',
+          video: 'https://www.tiktok.com/embed/7334567890123456789',
+          author: '@muscle_cars',
+          likes: 4932,
+          type: 'video'
         },
         {
           id: 5,
           title: 'R/T Burnout',
           image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80',
           author: 'PowerHouse',
-          likes: 1543
+          likes: 1543,
+          type: 'image'
+        },
+        {
+          id: 13,
+          title: 'Challenger SRT Demon',
+          video: 'https://www.tiktok.com/embed/7311223344556677889',
+          author: '@american_muscle',
+          likes: 5647,
+          type: 'video'
         },
         {
           id: 6,
           title: 'SRT Demon Street',
           image: 'https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&q=80',
           author: 'StreetRacer',
-          likes: 1876
+          likes: 1876,
+          type: 'image'
         }
       ]
     },
@@ -85,21 +123,40 @@ const Index = () => {
           title: 'Stingray Classic',
           image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80',
           author: 'VintageSpeed',
-          likes: 1654
+          likes: 1654,
+          type: 'image'
+        },
+        {
+          id: 14,
+          title: 'C2 Stingray Legend',
+          video: 'https://www.tiktok.com/embed/7345678901234567890',
+          author: '@classic_rides',
+          likes: 3245,
+          type: 'video'
         },
         {
           id: 8,
           title: 'C2 Chrome Dreams',
           image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80',
           author: 'ClassicCars',
-          likes: 1432
+          likes: 1432,
+          type: 'image'
+        },
+        {
+          id: 15,
+          title: '1967 Corvette Beauty',
+          video: 'https://www.tiktok.com/embed/7367890123456789012',
+          author: '@vintage_motors',
+          likes: 2876,
+          type: 'video'
         },
         {
           id: 9,
           title: 'Sting Ray Night',
           image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80',
           author: 'RetroRides',
-          likes: 1298
+          likes: 1298,
+          type: 'image'
         }
       ]
     }
@@ -113,6 +170,54 @@ const Index = () => {
     });
     setSubmitForm({ name: '', link: '', description: '' });
   };
+
+  const renderEditCard = (edit: any, index: number) => (
+    <Card
+      key={edit.id}
+      className="group overflow-hidden border-border/50 hover-lift cursor-pointer animate-zoom-in"
+      style={{ animationDelay: `${index * 0.1}s` }}
+      onClick={() => setSelectedCar(edit.title)}
+    >
+      <CardContent className="p-0">
+        <div className="relative overflow-hidden aspect-video">
+          {edit.type === 'video' ? (
+            <iframe
+              src={edit.video}
+              className="w-full h-full"
+              allowFullScreen
+              allow="encrypted-media"
+            />
+          ) : (
+            <>
+              <img
+                src={edit.image}
+                alt={edit.title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </>
+          )}
+          <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2">
+            <Icon name="Heart" size={16} className="text-secondary" />
+            <span className="text-sm font-medium">{edit.likes}</span>
+          </div>
+          {edit.type === 'video' && (
+            <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur-sm px-2 py-1 rounded-full flex items-center gap-1">
+              <Icon name="Play" size={14} className="text-primary" />
+              <span className="text-xs font-medium">TikTok</span>
+            </div>
+          )}
+        </div>
+        <div className="p-4 space-y-2">
+          <h4 className="font-semibold text-lg line-clamp-1">{edit.title}</h4>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Icon name="User" size={14} />
+            <span>{edit.author}</span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -218,36 +323,7 @@ const Index = () => {
                   <div className="h-px flex-1 bg-border" />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {car.edits.map((edit, index) => (
-                    <Card
-                      key={edit.id}
-                      className="group overflow-hidden border-border/50 hover-lift cursor-pointer animate-zoom-in"
-                      style={{ animationDelay: `${index * 0.1}s` }}
-                      onClick={() => setSelectedCar(edit.title)}
-                    >
-                      <CardContent className="p-0">
-                        <div className="relative overflow-hidden aspect-video">
-                          <img
-                            src={edit.image}
-                            alt={edit.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                          <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2">
-                            <Icon name="Heart" size={16} className="text-secondary" />
-                            <span className="text-sm font-medium">{edit.likes}</span>
-                          </div>
-                        </div>
-                        <div className="p-4 space-y-2">
-                          <h4 className="font-semibold text-lg line-clamp-1">{edit.title}</h4>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Icon name="User" size={14} />
-                            <span>{edit.author}</span>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                  {car.edits.map((edit, index) => renderEditCard(edit, index))}
                 </div>
               </div>
             ))}
@@ -261,36 +337,7 @@ const Index = () => {
                   <h3 className="text-3xl font-bold">{car.name}</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {car.edits.map((edit, index) => (
-                    <Card
-                      key={edit.id}
-                      className="group overflow-hidden border-border/50 hover-lift cursor-pointer animate-zoom-in"
-                      style={{ animationDelay: `${index * 0.1}s` }}
-                      onClick={() => setSelectedCar(edit.title)}
-                    >
-                      <CardContent className="p-0">
-                        <div className="relative overflow-hidden aspect-video">
-                          <img
-                            src={edit.image}
-                            alt={edit.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                          <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2">
-                            <Icon name="Heart" size={16} className="text-secondary" />
-                            <span className="text-sm font-medium">{edit.likes}</span>
-                          </div>
-                        </div>
-                        <div className="p-4 space-y-2">
-                          <h4 className="font-semibold text-lg line-clamp-1">{edit.title}</h4>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Icon name="User" size={14} />
-                            <span>{edit.author}</span>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                  {car.edits.map((edit, index) => renderEditCard(edit, index))}
                 </div>
               </div>
             </TabsContent>
