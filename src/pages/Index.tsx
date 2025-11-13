@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 const Index = () => {
   const { toast } = useToast();
   const [selectedCar, setSelectedCar] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [submitForm, setSubmitForm] = useState({
     name: '',
     link: '',
@@ -171,6 +172,21 @@ const Index = () => {
     setSubmitForm({ name: '', link: '', description: '' });
   };
 
+  const filterEdits = (carData: any) => {
+    if (!searchQuery.trim()) return carData;
+    
+    const query = searchQuery.toLowerCase();
+    return {
+      ...carData,
+      edits: carData.edits.filter((edit: any) => 
+        edit.title.toLowerCase().includes(query) ||
+        carData.name.toLowerCase().includes(query)
+      )
+    };
+  };
+
+  const filteredCars = cars.map(filterEdits).filter(car => car.edits.length > 0);
+
   const renderEditCard = (edit: any, index: number) => (
     <Card
       key={edit.id}
@@ -300,6 +316,18 @@ const Index = () => {
       </section>
 
       <section className="container mx-auto px-4 pb-20">
+        <div className="max-w-2xl mx-auto mb-8">
+          <div className="relative">
+            <Icon name="Search" size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Поиск по названию эдита или модели машины..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-12 h-12 text-base"
+            />
+          </div>
+        </div>
+
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-12 h-14">
             <TabsTrigger value="all" className="text-base">
@@ -315,30 +343,46 @@ const Index = () => {
           </TabsList>
 
           <TabsContent value="all" className="space-y-8">
-            {cars.map((car, carIndex) => (
-              <div key={car.id} className="space-y-4" style={{ animationDelay: `${carIndex * 0.1}s` }}>
-                <div className="flex items-center gap-3">
-                  <span className="text-3xl">{car.icon}</span>
-                  <h3 className="text-2xl font-bold">{car.name}</h3>
-                  <div className="h-px flex-1 bg-border" />
+            {filteredCars.length > 0 ? (
+              filteredCars.map((car, carIndex) => (
+                <div key={car.id} className="space-y-4" style={{ animationDelay: `${carIndex * 0.1}s` }}>
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">{car.icon}</span>
+                    <h3 className="text-2xl font-bold">{car.name}</h3>
+                    <div className="h-px flex-1 bg-border" />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {car.edits.map((edit, index) => renderEditCard(edit, index))}
+                  </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {car.edits.map((edit, index) => renderEditCard(edit, index))}
-                </div>
+              ))
+            ) : (
+              <div className="text-center py-20">
+                <Icon name="SearchX" size={64} className="mx-auto mb-4 text-muted-foreground" />
+                <h3 className="text-2xl font-bold mb-2">Ничего не найдено</h3>
+                <p className="text-muted-foreground">Попробуй изменить поисковый запрос</p>
               </div>
-            ))}
+            )}
           </TabsContent>
 
-          {cars.map((car) => (
+          {filteredCars.map((car) => (
             <TabsContent key={car.id} value={car.id}>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-8">
                   <span className="text-4xl">{car.icon}</span>
                   <h3 className="text-3xl font-bold">{car.name}</h3>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {car.edits.map((edit, index) => renderEditCard(edit, index))}
-                </div>
+                {car.edits.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {car.edits.map((edit, index) => renderEditCard(edit, index))}
+                  </div>
+                ) : (
+                  <div className="text-center py-20">
+                    <Icon name="SearchX" size={64} className="mx-auto mb-4 text-muted-foreground" />
+                    <h3 className="text-2xl font-bold mb-2">Ничего не найдено</h3>
+                    <p className="text-muted-foreground">Попробуй изменить поисковый запрос</p>
+                  </div>
+                )}
               </div>
             </TabsContent>
           ))}
