@@ -84,11 +84,33 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'slide-in': {
+					from: {
+						opacity: '0',
+						transform: 'translateX(-20px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateX(0)'
+					}
+				},
+				'zoom-in': {
+					from: {
+						scale: '0.95',
+						opacity: '0'
+					},
+					to: {
+						scale: '1',
+						opacity: '1'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'slide-in': 'slide-in 0.4s ease-out',
+				'zoom-in': 'zoom-in 0.3s ease-out'
 			}
 		}
 	},
